@@ -20,4 +20,5 @@ class Course extends Model {
     public function materials() { return $this->hasMany(CourseMaterial::class)->orderBy('order'); }
     public function assessments() { return $this->hasMany(Assessment::class); }
     public function learningPaths() { return $this->belongsToMany(LearningPath::class, 'learning_path_course')->withPivot('order'); }
+    public function certificates() { return $this->hasMany(Certificate::class); }
 }

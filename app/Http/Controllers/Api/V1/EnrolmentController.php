@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEnrolmentRequest;
 use App\Http\Resources\EnrolmentResource;
+use App\Mail\EnrolmentConfirmed;
 use App\Models\Enrolment;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EnrolmentController extends Controller
 {
@@ -45,7 +47,9 @@ class EnrolmentController extends Controller
             'status' => 'pending',
             'enrolled_at' => now(),
         ]);
-        return $this->success(new EnrolmentResource($enrolment->load(['course'])), 'Enrolled successfully', 201);
+        $enrolment->load(['user', 'course', 'schedule']);
+        Mail::to($request->user()->email)->queue(new EnrolmentConfirmed($enrolment));
+        return $this->success(new EnrolmentResource($enrolment), 'Enrolled successfully', 201);
     }
 
     public function update(Request $request, Enrolment $enrolment)

@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CourseController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\CourseMaterialController;
 use App\Http\Controllers\Api\V1\EnrolmentController;
+use App\Http\Controllers\Api\V1\LearningPathController;
+use App\Http\Controllers\Api\V1\PasswordResetController;
 use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\CertificateController;
 use App\Http\Controllers\Api\V1\UserController;
@@ -17,15 +20,20 @@ Route::prefix('v1')->group(function () {
     // Public routes
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/{slug}', [CourseController::class, 'show']);
+    Route::get('/courses/{course}/materials', [CourseMaterialController::class, 'index']);
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/categories/{category}', [CategoryController::class, 'show']);
     Route::get('/certificates/verify/{code}', [CertificateController::class, 'verify']);
     Route::get('/payments/verify/{reference}', [PaymentController::class, 'verify']);
+    Route::get('/learning-paths', [LearningPathController::class, 'index']);
+    Route::get('/learning-paths/{slug}', [LearningPathController::class, 'show']);
 
     // Auth routes
     Route::prefix('auth')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
         Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/forgot-password', [PasswordResetController::class, 'sendResetLink']);
+        Route::post('/reset-password', [PasswordResetController::class, 'reset']);
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/logout', [AuthController::class, 'logout']);
             Route::get('/me', [AuthController::class, 'me']);
@@ -60,6 +68,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/schedules', [ScheduleController::class, 'index']);
         Route::get('/schedules/{schedule}', [ScheduleController::class, 'show']);
 
+        Route::get('/materials/{material}', [CourseMaterialController::class, 'show']);
+
         // Admin routes
         Route::middleware('role:super_admin,admin')->group(function () {
             // Courses admin
@@ -91,6 +101,16 @@ Route::prefix('v1')->group(function () {
             Route::post('/schedules', [ScheduleController::class, 'store']);
             Route::put('/schedules/{schedule}', [ScheduleController::class, 'update']);
             Route::delete('/schedules/{schedule}', [ScheduleController::class, 'destroy']);
+
+            // Materials admin
+            Route::post('/materials', [CourseMaterialController::class, 'store']);
+            Route::put('/materials/{material}', [CourseMaterialController::class, 'update']);
+            Route::delete('/materials/{material}', [CourseMaterialController::class, 'destroy']);
+
+            // Learning Paths admin
+            Route::post('/learning-paths', [LearningPathController::class, 'store']);
+            Route::put('/learning-paths/{learningPath}', [LearningPathController::class, 'update']);
+            Route::delete('/learning-paths/{learningPath}', [LearningPathController::class, 'destroy']);
 
             // Assessments admin
             Route::post('/assessments', [AssessmentController::class, 'store']);

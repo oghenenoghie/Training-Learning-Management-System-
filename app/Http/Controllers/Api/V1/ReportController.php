@@ -29,7 +29,7 @@ class ReportController extends Controller
     {
         $query = Payment::where('status', 'paid');
         $monthly = $query->select(
-            DB::raw("strftime('%Y-%m', paid_at) as month"),
+            DB::raw("DATE_FORMAT(paid_at, '%Y-%m') as month"),
             DB::raw('SUM(amount) as total'),
             DB::raw('COUNT(*) as count')
         )->groupBy('month')->orderBy('month', 'desc')->get();

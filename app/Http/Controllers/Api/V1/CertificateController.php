@@ -3,9 +3,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CertificateResource;
+use App\Mail\CertificateIssued;
 use App\Models\Certificate;
 use App\Traits\ApiResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class CertificateController extends Controller
@@ -34,22 +37,28 @@ class CertificateController extends Controller
 
     public function download(Certificate $certificate)
     {
-        // In production generate PDF here
-        return $this->success([
-            'certificate_number' => $certificate->certificate_number,
-            'download_url' => url("/api/v1/certificates/{$certificate->id}/pdf"),
-        ], 'Certificate download link');
+        $certificate->load(['user', 'course']);
+        $pdf = Pdf::loadView('certificates.certificate', ['certificate' => $certificate])
+            ->setPaper('a4', 'landscape');
+        return $pdf->download("certificate-{$certificate->certificate_number}.pdf");
     }
 
     public static function issue(int $userId, int $courseId, int $enrolmentId): Certificate
     {
-        return Certificate::create([
-            'user_id' => $userId,
-            'course_id' => $courseId,
-            'enrolment_id' => $enrolmentId,
+        $certificate = Certificate::create([
+            'user_id'            => $userId,
+            'course_id'          => $courseId,
+            'enrolment_id'       => $enrolmentId,
             'certificate_number' => 'CERT-' . strtoupper(Str::random(10)),
-            'verification_code' => Str::uuid()->toString(),
-            'issued_at' => now(),
+            'verification_code'  => Str::uuid()->toString(),
+            'issued_at'          => now(),
         ]);
+
+        $user = \App\Models\User::find($userId);
+        if ($user) {
+            Mail::to($user->email)->queue(new CertificateIssued($certificate->load(['user', 'course'])));
+        }
+
+        return $certificate;
     }
 }

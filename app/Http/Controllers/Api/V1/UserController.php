@@ -25,12 +25,20 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'phone' => 'nullable|string|max:20',
+            'name'         => 'sometimes|string|max:255',
+            'phone'        => 'nullable|string|max:20',
             'organisation' => 'nullable|string|max:255',
-            'job_title' => 'nullable|string|max:255',
-            'avatar' => 'nullable|string',
+            'job_title'    => 'nullable|string|max:255',
+            'avatar'       => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = $path;
+        } elseif (array_key_exists('avatar', $data)) {
+            unset($data['avatar']); // don't nullify if no file provided
+        }
+
         $user->update($data);
         return $this->success(new UserResource($user), 'Profile updated');
     }

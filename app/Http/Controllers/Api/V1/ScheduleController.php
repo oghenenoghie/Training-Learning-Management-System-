@@ -15,7 +15,9 @@ class ScheduleController extends Controller
     {
         $query = CourseSchedule::with('course');
         if ($request->course_id) $query->where('course_id', $request->course_id);
-        return $this->success($query->paginate(15));
+        if ($request->status)    $query->where('status', $request->status);
+        if ($request->boolean('upcoming')) $query->where('start_date', '>=', now()->toDateString());
+        return $this->success($query->orderBy('start_date')->paginate(15));
     }
 
     public function show(CourseSchedule $schedule) { return $this->success($schedule->load('course')); }
