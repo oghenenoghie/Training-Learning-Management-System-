@@ -9,7 +9,6 @@ set -e
 
 CPANEL_USER=$(whoami)
 APP_DIR="/home/$CPANEL_USER/lms"
-PUBLIC_HTML="/home/$CPANEL_USER/public_html"
 BRANCH="${1:-main}"
 
 GREEN='\033[0;32m'
@@ -49,10 +48,8 @@ php artisan view:cache
 # Permissions
 chmod -R 775 storage bootstrap/cache
 
-# Sync public assets (preserves your custom index.php)
-info "Syncing public assets to public_html..."
-rsync -a --delete public/ "$PUBLIC_HTML/" --exclude=index.php
+php artisan storage:link 2>/dev/null || true
 
 echo ""
-info "Update complete! Site is live at your domain."
+info "Update complete! API live at https://api.outlooknews.com.ng"
 echo ""

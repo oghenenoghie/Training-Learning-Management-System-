@@ -21,7 +21,7 @@ set -e
 # ── CONFIG — edit these ─────────────────────────────────────
 CPANEL_USER=$(whoami)
 APP_DIR="/home/$CPANEL_USER/lms"          # Where you cloned the repo
-PUBLIC_HTML="/home/$CPANEL_USER/public_html"  # cPanel web root
+# Subdomain api.outlooknews.com.ng → points to $APP_DIR/public via cPanel Subdomains
 # ────────────────────────────────────────────────────────────
 
 GREEN='\033[0;32m'
@@ -107,45 +107,16 @@ info "Permissions set."
 info "Creating storage symlink..."
 php artisan storage:link 2>/dev/null || warn "Storage link already exists or failed — check manually."
 
-# ── public_html setup ───────────────────────────────────────
+# ── Storage symlink ──────────────────────────────────────────
+info "Creating storage symlink..."
+php artisan storage:link 2>/dev/null || warn "Storage link already exists."
+
 echo ""
-echo "Setting up public_html to serve the Laravel app..."
-
-# Backup existing public_html index if it exists
-if [ -f "$PUBLIC_HTML/index.php" ]; then
-  mv "$PUBLIC_HTML/index.php" "$PUBLIC_HTML/index.php.bak"
-  warn "Backed up existing index.php → index.php.bak"
-fi
-
-# Copy public assets into public_html
-cp -r "$APP_DIR/public/." "$PUBLIC_HTML/"
-info "Copied public/ assets to public_html/"
-
-# Rewrite index.php paths to point to the app directory
-cat > "$PUBLIC_HTML/index.php" <<PHP
-<?php
-
-define('LARAVEL_START', microtime(true));
-
-// Maintenance mode check
-if (file_exists(\$maintenanceFile = __DIR__.'/../lms/storage/framework/maintenance.php')) {
-    require \$maintenanceFile;
-}
-
-require __DIR__.'/../lms/vendor/autoload.php';
-
-\$app = require_once __DIR__.'/../lms/bootstrap/app.php';
-
-\$kernel = \$app->make(Illuminate\Contracts\Http\Kernel::class);
-
-\$response = \$kernel->handle(
-    \$request = Illuminate\Http\Request::capture()
-)->send();
-
-\$kernel->terminate(\$request, \$response);
-PHP
-
-info "Updated public_html/index.php with correct paths."
+warn "IMPORTANT: In cPanel → Subdomains, make sure:"
+warn "  Subdomain : api"
+warn "  Domain    : outlooknews.com.ng"
+warn "  Root Dir  : /home/$CPANEL_USER/lms/public"
+echo ""
 
 # ── Final summary ───────────────────────────────────────────
 echo ""
