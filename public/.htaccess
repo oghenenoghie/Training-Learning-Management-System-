@@ -42,7 +42,7 @@ Options -Indexes -MultiViews
 # ── CORS headers for API (Next.js frontend → Laravel API) ──
 <IfModule mod_headers.c>
     # Allow your frontend domain — update this to your actual domain
-    SetEnvIf Origin "^https://(www\.)?yourdomain\.com$" ORIGIN_OK=1
+    SetEnvIf Origin "^https://(www\.)?outlooknews\.com\.ng$" ORIGIN_OK=1
     SetEnvIf Origin "^http://localhost(:[0-9]+)?$" ORIGIN_OK=1
 
     Header always set Access-Control-Allow-Origin "%{HTTP_ORIGIN}e" env=ORIGIN_OK
