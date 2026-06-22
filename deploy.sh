@@ -63,12 +63,10 @@ composer install --no-dev --optimize-autoloader --no-interaction
 # ── .env setup ──────────────────────────────────────────────
 if [ ! -f ".env" ]; then
   cp .env.example .env
-  info "Created .env from .env.example"
-  warn "IMPORTANT: Edit .env now and set your DB credentials before continuing."
-  echo ""
-  echo "  nano $APP_DIR/.env"
-  echo ""
-  read -rp "Press ENTER after you have edited .env to continue..." _
+  # Pre-fill known DB credentials
+  sed -i "s/your_db_password/LmsDb@2026!/" .env
+  info "Created .env with DB credentials pre-filled."
+  warn "IMPORTANT: Update MAIL_PASSWORD and PAYSTACK/FLUTTERWAVE keys in .env when ready."
 else
   info ".env already exists, skipping copy."
 fi
