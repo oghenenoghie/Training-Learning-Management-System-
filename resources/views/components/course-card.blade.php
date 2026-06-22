@@ -63,12 +63,13 @@ $gradient = $gradients['default'];
         {{-- Price + CTA --}}
         <div style="display:flex; align-items:center; justify-content:space-between;">
             <div>
+                <p style="font-size:0.68rem;color:#6B7C8D;margin:0;text-transform:uppercase;letter-spacing:0.04em;">Starting from</p>
                 <span style="font-size:1.1rem; font-weight:800; color:#1A4D5E; font-family:Georgia,serif;">
                     ₦{{ number_format($course->price ?? 0) }}
                 </span>
             </div>
-            <a href="/courses/{{ $course->slug }}" class="btn-primary" style="padding:0.5rem 1rem; font-size:0.8rem;">
-                Enrol Now
+            <a href="/courses/{{ $course->slug }}" style="background:#1A4D5E;color:white;font-weight:700;padding:0.5rem 1rem;border-radius:0.4rem;text-decoration:none;font-size:0.8rem;">
+                View &amp; Book
             </a>
         </div>
     </div>
