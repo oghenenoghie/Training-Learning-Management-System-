@@ -58,16 +58,22 @@
             <div x-show="tab==='schedules'">
                 <div class="card" style="padding:1.5rem;">
                     <h2 style="font-size:1.25rem;font-weight:700;color:#0F1F2B;margin:0 0 1rem;font-family:Georgia,serif;">Available Schedules</h2>
-                    @forelse($course->schedules->where('status','open') as $schedule)
-                        <div style="padding:1rem;border:1px solid #DDE3EA;border-radius:0.5rem;margin-bottom:0.75rem;display:flex;justify-content:space-between;align-items:center;">
+                    @forelse($course->schedules->where('status','open')->where('start_date','>=',now()->toDateString()) as $schedule)
+                        <div style="padding:1rem;border:1px solid #DDE3EA;border-radius:0.5rem;margin-bottom:0.75rem;display:flex;justify-content:space-between;align-items:center;transition:border-color 0.15s;" onmouseover="this.style.borderColor='#1A4D5E'" onmouseout="this.style.borderColor='#DDE3EA'">
                             <div>
-                                <p style="font-weight:600;color:#0F1F2B;margin:0;">{{ $schedule->start_date->format('d M Y') }} — {{ $schedule->end_date->format('d M Y') }}</p>
-                                <p style="font-size:0.8rem;color:#6B7C8D;margin:0.25rem 0 0;">{{ $schedule->venue ?? ucfirst($schedule->mode) }}</p>
+                                <p style="font-weight:700;color:#0F1F2B;margin:0;">{{ $schedule->start_date->format('d M Y') }} — {{ $schedule->end_date->format('d M Y') }}</p>
+                                <p style="font-size:0.8rem;color:#6B7C8D;margin:0.25rem 0 0;">
+                                    📍 {{ $schedule->venue ?? ucfirst($schedule->mode ?? 'Virtual') }}
+                                    &nbsp;·&nbsp; {{ $schedule->start_date->diffInDays($schedule->end_date) + 1 }} day(s)
+                                </p>
                             </div>
-                            <a href="/enrolment/checkout?course={{ $course->id }}&schedule={{ $schedule->id }}" class="btn-primary" style="padding:0.5rem 1rem;font-size:0.8rem;">Select</a>
+                            <a href="{{ route('booking.checkout', $course->slug) }}?schedule_id={{ $schedule->id }}"
+                                style="background:#1A4D5E;color:white;font-weight:700;padding:0.5rem 1rem;border-radius:0.4rem;text-decoration:none;font-size:0.8rem;white-space:nowrap;">
+                                Book Now
+                            </a>
                         </div>
                     @empty
-                        <p style="color:#6B7C8D;font-size:0.875rem;">No upcoming schedules. Contact us to schedule a cohort.</p>
+                        <p style="color:#6B7C8D;font-size:0.875rem;">No upcoming open schedules. <a href="mailto:info@ifsnigeria.com" style="color:#1A4D5E;">Contact us</a> to arrange a cohort.</p>
                     @endforelse
                 </div>
             </div>
@@ -87,7 +93,7 @@
                 <p style="font-size:2rem;font-weight:800;color:#1A4D5E;margin:0 0 0.5rem;font-family:Georgia,serif;">₦{{ number_format($course->price ?? 0) }}</p>
                 <p style="font-size:0.75rem;color:#6B7C8D;margin:0 0 1.5rem;">+7.5% VAT</p>
 
-                <a href="/enrolment/checkout?course={{ $course->id }}" class="btn-primary" style="display:block;text-align:center;margin-bottom:0.75rem;">Enrol Now</a>
+                <a href="{{ route('booking.checkout', $course->slug) }}" class="btn-primary" style="display:block;text-align:center;margin-bottom:0.75rem;">Book Now — No Login Required</a>
                 <a href="/login" style="display:block;text-align:center;padding:0.75rem;border:1px solid #DDE3EA;border-radius:0.5rem;color:#6B7C8D;text-decoration:none;font-size:0.875rem;">Login to Enrol</a>
 
                 <div style="border-top:1px solid #DDE3EA;margin-top:1.25rem;padding-top:1.25rem;">
