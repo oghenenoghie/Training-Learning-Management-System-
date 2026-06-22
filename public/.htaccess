@@ -14,7 +14,7 @@ Options -Indexes -MultiViews
     RewriteCond %{HTTPS} off
     RewriteCond %{HTTP_HOST} !^localhost [NC]
     RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
-    RewriteCond %{HTTP_HOST} ^api\.outlooknews\.com\.ng$ [NC]
+    RewriteCond %{HTTP_HOST} ^(www\.)?dhnconsulting\.org$ [NC]
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
     # Remove www (optional — delete block if you prefer www)
@@ -43,8 +43,8 @@ Options -Indexes -MultiViews
 # ── CORS headers for API (Next.js frontend → Laravel API) ──
 <IfModule mod_headers.c>
     # Allow your frontend domain — update this to your actual domain
-    SetEnvIf Origin "^https://(www\.)?outlooknews\.com\.ng$" ORIGIN_OK=1
-    SetEnvIf Origin "^https://api\.outlooknews\.com\.ng$" ORIGIN_OK=1
+    SetEnvIf Origin "^https://(www\.)?dhnconsulting\.org$" ORIGIN_OK=1
+    SetEnvIf Origin "^https://api\.dhnconsulting\.org$" ORIGIN_OK=1
     SetEnvIf Origin "^http://localhost(:[0-9]+)?$" ORIGIN_OK=1
 
     Header always set Access-Control-Allow-Origin "%{HTTP_ORIGIN}e" env=ORIGIN_OK

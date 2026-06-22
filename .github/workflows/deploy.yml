@@ -47,4 +47,4 @@ jobs:
             echo "==> Fixing permissions..."
             chmod -R 775 storage bootstrap/cache
 
-            echo "==> Done! API live at https://api.outlooknews.com.ng"
+            echo "==> Done! Site live at https://dhnconsulting.org"
