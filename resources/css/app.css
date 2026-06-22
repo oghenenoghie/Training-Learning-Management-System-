@@ -1,9 +1,135 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../../vendor/livewire/livewire/src/**/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: Georgia, serif;
+    --font-mono: monospace;
+
+    --color-primary: #1A4D5E;
+    --color-accent: #E07B2A;
+    --color-surface: #F5F7F9;
+    --color-elevated: #FFFFFF;
+    --color-ink: #0F1F2B;
+    --color-muted: #6B7C8D;
+    --color-fog: #DDE3EA;
+    --color-success: #1A7A4A;
+    --color-warning: #B85C00;
+    --color-danger: #C0392B;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-surface);
+        color: var(--color-ink);
+        font-family: var(--font-sans);
+    }
+    h1, h2, h3 {
+        font-family: var(--font-display);
+    }
+}
+
+@layer components {
+    .btn-primary {
+        background-color: var(--color-accent);
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.15s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+    }
+    .btn-primary:hover { background-color: #c96b1e; }
+
+    .btn-secondary {
+        background-color: var(--color-primary);
+        color: white;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.15s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+    }
+    .btn-secondary:hover { background-color: #163f4e; }
+
+    .btn-outline {
+        border: 2px solid var(--color-primary);
+        color: var(--color-primary);
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        transition: all 0.15s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        background: transparent;
+    }
+    .btn-outline:hover {
+        background-color: var(--color-primary);
+        color: white;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 0.75rem;
+        border: 1px solid var(--color-fog);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .input {
+        width: 100%;
+        border: 1px solid var(--color-fog);
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        color: var(--color-ink);
+        font-size: 0.875rem;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        background-color: white;
+    }
+    .input:focus {
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 3px rgba(224,123,42,0.15);
+    }
+    .input::placeholder { color: var(--color-muted); }
+
+    .label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-ink);
+        margin-bottom: 0.5rem;
+    }
+
+    .sidebar-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1rem;
+        border-radius: 0.5rem;
+        color: rgba(255,255,255,0.75);
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.15s;
+        text-decoration: none;
+    }
+    .sidebar-link:hover {
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+    }
+    .sidebar-link.active {
+        background-color: rgba(224,123,42,0.25);
+        color: white;
+    }
 }
