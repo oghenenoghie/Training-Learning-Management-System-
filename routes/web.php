@@ -9,6 +9,7 @@ use App\Http\Controllers\Web\AdminController;
 use App\Http\Controllers\Web\AdminCourseController;
 use App\Http\Controllers\Web\AdminUserController;
 use App\Http\Controllers\Web\EnrolmentWebController;
+use App\Http\Controllers\Web\BookingController;
 
 // ── Public ──────────────────────────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index']);
@@ -36,6 +37,14 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
     Route::get('/profile', [DashboardController::class, 'profile']);
     Route::put('/profile', [DashboardController::class, 'updateProfile']);
 });
+
+// ── Guest Booking ─────────────────────────────────────────────────────────────
+Route::get('/courses/{slug}/book', [BookingController::class, 'showCheckout'])->name('booking.checkout');
+Route::post('/courses/{slug}/book', [BookingController::class, 'processCheckout'])->name('booking.process');
+Route::get('/booking/{reference}/pay', [BookingController::class, 'initiatePayment'])->name('booking.pay');
+Route::get('/booking/{reference}/success', [BookingController::class, 'success'])->name('booking.success');
+Route::get('/booking/{reference}/invoice', [BookingController::class, 'downloadInvoice'])->name('booking.invoice');
+Route::get('/booking/verify/{reference}', [BookingController::class, 'verifyPayment'])->name('booking.verify');
 
 // ── Enrolment ────────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
