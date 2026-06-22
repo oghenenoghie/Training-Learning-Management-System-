@@ -25,7 +25,7 @@ jobs:
           script: |
             set -e
 
-            APP_DIR="$HOME/lms"
+            APP_DIR="/home2/${{ secrets.CPANEL_USERNAME }}/lms"
 
             echo "==> Pulling latest code..."
             cd $APP_DIR
@@ -33,7 +33,7 @@ jobs:
             git reset --hard origin/${{ github.ref_name }}
 
             echo "==> Installing dependencies..."
-            composer install --no-dev --optimize-autoloader --no-interaction
+            php composer.phar install --no-dev --optimize-autoloader --no-interaction
 
             echo "==> Running migrations..."
             php artisan migrate --force
@@ -47,4 +47,4 @@ jobs:
             echo "==> Fixing permissions..."
             chmod -R 775 storage bootstrap/cache
 
-            echo "==> Done! Site live at https://dhnconsulting.org"
+            echo "==> Done! Site live at http://lms.outlooknews.com.ng"
