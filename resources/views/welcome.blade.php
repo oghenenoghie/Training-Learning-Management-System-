@@ -16,7 +16,7 @@
             <p style="font-size:1.1rem;color:rgba(255,255,255,0.8);line-height:1.7;margin:0 0 2.5rem;max-width:600px;margin-left:auto;margin-right:auto;">
                 Empowering Nigeria's professionals with world-class training programmes, internationally recognised certifications, and transformative learning experiences.
             </p>
-            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <div class="hero-btns" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
                 <a href="/courses" class="btn-primary" style="padding:0.875rem 2rem;font-size:1rem;">Browse Courses</a>
                 <a href="/register" style="border:2px solid rgba(255,255,255,0.4);color:white;font-weight:600;padding:0.875rem 2rem;border-radius:0.5rem;text-decoration:none;font-size:1rem;display:inline-block;">Create Account</a>
             </div>
@@ -25,7 +25,7 @@
 
     {{-- Stats --}}
     <section style="background:white;border-bottom:1px solid #DDE3EA;padding:1.5rem;">
-        <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center;">
+        <div class="stats-grid" style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center;">
             @foreach([['37+','Courses Available'],['10K+','Professionals Trained'],['5','User Roles'],['100%','Online Access']] as $stat)
                 <div style="padding:0.5rem;">
                     <p style="font-size:1.75rem;font-weight:800;color:#1A4D5E;margin:0;font-family:Georgia,serif;">{{ $stat[0] }}</p>

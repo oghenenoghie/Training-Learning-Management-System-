@@ -7,6 +7,28 @@
     <title>{{ $title ?? 'IFS Nigeria — Training & LMS' }}</title>
     @livewireStyles
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        *{box-sizing:border-box;}
+        body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+        .btn-primary{background:#E07B2A;color:white;font-weight:700;padding:0.6rem 1.25rem;border-radius:0.5rem;text-decoration:none;display:inline-block;border:none;cursor:pointer;transition:background 0.15s;}
+        .btn-primary:hover{background:#c96b1e;}
+        .btn-outline{border:2px solid #1A4D5E;color:#1A4D5E;font-weight:600;border-radius:0.5rem;text-decoration:none;display:inline-block;transition:all 0.15s;}
+        .btn-outline:hover{background:#1A4D5E;color:white;}
+        .card{background:white;border:1px solid #DDE3EA;border-radius:0.75rem;transition:box-shadow 0.15s;}
+        .card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+        .desktop-nav{display:flex;}
+        .mobile-menu-btn{display:none!important;}
+        @media(max-width:768px){
+            .desktop-nav{display:none!important;}
+            .mobile-menu-btn{display:block!important;}
+            .stats-grid{grid-template-columns:repeat(2,1fr)!important;}
+            .hero-btns{flex-direction:column;align-items:center;}
+            .hero-btns a{width:100%;max-width:280px;text-align:center;}
+        }
+        @media(max-width:480px){
+            .stats-grid{grid-template-columns:repeat(2,1fr)!important;}
+        }
+    </style>
 </head>
 <body style="background-color:#F5F7F9; color:#0F1F2B;">
 
