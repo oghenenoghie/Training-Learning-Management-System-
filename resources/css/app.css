@@ -7,17 +7,19 @@
 @source '../../vendor/livewire/livewire/src/**/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
-    --font-display: Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Lora', Georgia, serif;
     --font-mono: monospace;
 
-    --color-primary: #1A4D5E;
-    --color-accent: #E07B2A;
-    --color-surface: #F5F7F9;
+    --color-primary: #0D3B4F;
+    --color-primary-dark: #0A2E3E;
+    --color-accent: #F08C3A;
+    --color-gold: #C9A84C;
+    --color-surface: #F8FAFB;
     --color-elevated: #FFFFFF;
-    --color-ink: #0F1F2B;
+    --color-ink: #0A1628;
     --color-muted: #6B7C8D;
-    --color-fog: #DDE3EA;
+    --color-fog: #E2E8EF;
     --color-success: #1A7A4A;
     --color-warning: #B85C00;
     --color-danger: #C0392B;
@@ -28,9 +30,11 @@
         background-color: var(--color-surface);
         color: var(--color-ink);
         font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
     }
     h1, h2, h3 {
         font-family: var(--font-display);
+        letter-spacing: -0.01em;
     }
 }
 
@@ -38,69 +42,104 @@
     .btn-primary {
         background-color: var(--color-accent);
         color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        transition: background-color 0.15s;
+        font-weight: 700;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.15s, transform 0.1s, box-shadow 0.15s;
         display: inline-block;
         text-decoration: none;
         cursor: pointer;
         border: none;
+        box-shadow: 0 2px 8px rgba(240,140,58,0.3);
+        font-family: var(--font-sans);
+        letter-spacing: 0.01em;
     }
-    .btn-primary:hover { background-color: #c96b1e; }
+    .btn-primary:hover {
+        background-color: #d97a28;
+        box-shadow: 0 4px 16px rgba(240,140,58,0.4);
+        transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); }
 
     .btn-secondary {
         background-color: var(--color-primary);
         color: white;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        transition: background-color 0.15s;
+        font-weight: 700;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: background-color 0.15s, transform 0.1s;
         display: inline-block;
         text-decoration: none;
         cursor: pointer;
         border: none;
+        font-family: var(--font-sans);
     }
-    .btn-secondary:hover { background-color: #163f4e; }
+    .btn-secondary:hover { background-color: var(--color-primary-dark); transform: translateY(-1px); }
 
     .btn-outline {
         border: 2px solid var(--color-primary);
         color: var(--color-primary);
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
+        font-weight: 700;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
         transition: all 0.15s;
         display: inline-block;
         text-decoration: none;
         cursor: pointer;
         background: transparent;
+        font-family: var(--font-sans);
     }
     .btn-outline:hover {
         background-color: var(--color-primary);
         color: white;
+        transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+        border: 2px solid rgba(255,255,255,0.45);
+        color: white;
+        font-weight: 700;
+        padding: 0.75rem 1.75rem;
+        border-radius: 9999px;
+        transition: all 0.15s;
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        background: transparent;
+        font-family: var(--font-sans);
+    }
+    .btn-ghost:hover {
+        background: rgba(255,255,255,0.12);
+        border-color: rgba(255,255,255,0.7);
     }
 
     .card {
         background-color: white;
-        border-radius: 0.75rem;
+        border-radius: 1rem;
         border: 1px solid var(--color-fog);
-        box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        box-shadow: 0 2px 8px rgba(13,59,79,0.06), 0 1px 2px rgba(0,0,0,0.03);
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .card:hover {
+        box-shadow: 0 8px 24px rgba(13,59,79,0.12), 0 2px 6px rgba(0,0,0,0.04);
+        transform: translateY(-2px);
     }
 
     .input {
         width: 100%;
-        border: 1px solid var(--color-fog);
-        border-radius: 0.5rem;
+        border: 1.5px solid var(--color-fog);
+        border-radius: 0.625rem;
         padding: 0.75rem 1rem;
         color: var(--color-ink);
-        font-size: 0.875rem;
+        font-size: 0.9rem;
         outline: none;
         transition: border-color 0.15s, box-shadow 0.15s;
         background-color: white;
+        font-family: var(--font-sans);
     }
     .input:focus {
         border-color: var(--color-accent);
-        box-shadow: 0 0 0 3px rgba(224,123,42,0.15);
+        box-shadow: 0 0 0 3px rgba(240,140,58,0.12);
     }
     .input::placeholder { color: var(--color-muted); }
 
@@ -110,6 +149,23 @@
         font-weight: 600;
         color: var(--color-ink);
         margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+    }
+
+    .badge-gold {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.375rem;
+        background: rgba(201,168,76,0.12);
+        border: 1px solid rgba(201,168,76,0.35);
+        color: #9A7A2A;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-family: var(--font-sans);
     }
 
     .sidebar-link {
@@ -117,19 +173,22 @@
         align-items: center;
         gap: 0.75rem;
         padding: 0.625rem 1rem;
-        border-radius: 0.5rem;
-        color: rgba(255,255,255,0.75);
-        font-size: 0.9rem;
+        border-radius: 0.625rem;
+        color: rgba(255,255,255,0.7);
+        font-size: 0.875rem;
         font-weight: 500;
         transition: all 0.15s;
         text-decoration: none;
+        font-family: var(--font-sans);
     }
     .sidebar-link:hover {
         background-color: rgba(255,255,255,0.1);
         color: white;
     }
     .sidebar-link.active {
-        background-color: rgba(224,123,42,0.25);
+        background-color: rgba(240,140,58,0.22);
         color: white;
+        font-weight: 600;
+        box-shadow: inset 3px 0 0 var(--color-accent);
     }
 }
